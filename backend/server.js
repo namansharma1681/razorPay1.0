@@ -71,6 +71,17 @@ app.post('/api/webhook/razorpay', async (req, res) => {
     }
 });
 
+// Fetch all transactions for the React dashboard
+app.get('/api/transactions', async (req, res) => {
+    try {
+        const transactions = await Transaction.find().sort({ createdAt: -1 });
+        res.status(200).json(transactions);
+    } catch (error) {
+        console.error('Failed to fetch transactions:', error);
+        res.status(500).json({ error: 'Failed to fetch transactions' });
+    }
+});
+
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'server is running' });
 });
