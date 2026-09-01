@@ -82,6 +82,23 @@ app.get('/api/transactions', async (req, res) => {
     }
 });
 
+// Execute recovery action and update database
+app.put('/api/transactions/:id/execute', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedTx = await Transaction.findByIdAndUpdate(
+            id,
+            { status: 'recovered' },
+            { new: true }
+        );
+        console.log(`\n✅ [MOCK SMS SENT] Automated WhatsApp message delivered to ${updatedTx.customerName}`);
+        res.status(200).json(updatedTx);
+    } catch (error) {
+        console.error('Failed to execute recovery:', error);
+        res.status(500).json({ error: 'Failed to execute recovery' });
+    }
+});
+
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'server is running' });
 });
