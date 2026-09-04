@@ -15,7 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// connect to local or cloud database
+// connect to database
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('connected to mongodb'))
   .catch((err) => console.error('mongodb connection error:', err));
